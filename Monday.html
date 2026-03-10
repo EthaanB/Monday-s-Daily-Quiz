@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nursing Four-Level NCLEX Practice</title>
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --panel: #ffffff;
+      --text: #1f1f1f;
+      --muted: #666666;
+      --border: #d8d8d8;
+      --accent: #3d3d3d;
+      --button: #ececec;
+      --button-text: #111111;
+    }
+    body.dark {
+      --bg: #121212;
+      --panel: #1d1d1d;
+      --text: #f1f1f1;
+      --muted: #b8b8b8;
+      --border: #3a3a3a;
+      --accent: #d8d8d8;
+      --button: #2d2d2d;
+      --button-text: #f1f1f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .header {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1, h2, h3 { margin-top: 0; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    button {
+      background: var(--button);
+      color: var(--button-text);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover { opacity: 0.95; }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .question {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .qnum {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .type {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .stem {
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .options {
+      margin: 0 0 14px 0;
+      padding-left: 22px;
+    }
+    .options li { margin-bottom: 8px; }
+    .answer {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .answer strong {
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .footer-note {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Nursing Four-Level NCLEX Practice</h1>
+      <p class="meta">20 advanced application questions built from your uploaded lecture transcript content, with emphasis on tetralogy of Fallot, dysrhythmias, shock, and safety.</p>
+      <div class="toolbar">
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <button onclick="toggleAllAnswers()">Show/Hide All Rationales</button>
+      </div>
+    </div>
+
+    <div id="questions"></div>
+
+    <div class="footer-note">Use the reveal button under each item to check the answer and rationale after you commit to a choice.</div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+            "type": "Priority teaching / Tetralogy",
+            "stem": "The parent of an 8-month-old with tetralogy of Fallot is preparing to give digoxin at home. Which statement by the parent requires follow-up by the nurse?",
+            "options": [
+                  "\"I will count the apical pulse for 1 full minute before giving the medication.\"",
+                  "\"I should give the medication by itself so I know the full dose was taken.\"",
+                  "\"If the baby misses a dose, I will double the next one to stay on schedule.\"",
+                  "\"I will call if I notice vomiting, poor feeding, or unusual slowing of the heart rate.\""
+            ],
+            "answer": "C. \"If the baby misses a dose, I will double the next one to stay on schedule.\"",
+            "rationale": "The transcript teaching for pediatric digoxin stresses counting the pulse for 1 full minute, giving the medication straight rather than mixing it into food or a full bottle, and never repeating or doubling a missed dose. Vomiting, anorexia, bradycardia, and dysrhythmias are concerning for toxicity."
+      },
+      {
+            "type": "First-best intervention / Tetralogy feeding",
+            "stem": "An infant with tetralogy of Fallot has an order for a 4-oz fortified feeding. After taking 3 oz by bottle, the infant becomes tachypneic with nasal flaring. Which action is best?",
+            "options": [
+                  "Continue the bottle so the infant receives the full calories orally",
+                  "Stop the oral feeding and give the remaining prescribed volume through the NG tube if available",
+                  "Lay the infant flat and retry the bottle after 10 minutes",
+                  "Dilute the formula with water to reduce the infant's work of feeding"
+            ],
+            "answer": "B. Stop the oral feeding and give the remaining prescribed volume through the NG tube if available",
+            "rationale": "The lecture emphasizes not feeding through tachypnea because doing so worsens respiratory distress and increases cardiac demand. These infants often need smaller, more frequent feeds, calorie-dense formula, and completion of the remaining feeding through an NG tube so they receive calories without additional work."
+      },
+      {
+            "type": "Which patient finding matters most / Post-cath Tetralogy",
+            "stem": "A 3-year-old is 2 hours post femoral cardiac catheterization for congenital heart disease. Which assessment finding requires immediate action by the nurse?",
+            "options": [
+                  "Pedal pulses are still weaker than baseline but are improving compared with 30 minutes ago",
+                  "A dime-sized shadow of blood is visible on the dressing and has not enlarged",
+                  "The affected foot is cool, pale, and blanches compared with the opposite foot",
+                  "The child asks for a drink and has a blood glucose of 74 mg/dL"
+            ],
+            "answer": "C. The affected foot is cool, pale, and blanches compared with the opposite foot",
+            "rationale": "After pediatric cardiac cath, worsening color and temperature distal to the insertion site suggest vascular compromise and must be addressed immediately. The transcript notes that pulses may be weaker initially if they are improving, but coldness and blanching are ominous."
+      },
+      {
+            "type": "Select all that apply / Tetralogy postoperative teaching",
+            "stem": "The nurse is teaching the parents of a child recovering after tetralogy of Fallot repair which findings to report as possible heart failure. Which findings should the nurse include? Select all that apply.",
+            "options": [
+                  "Weight gain",
+                  "Puffiness around the eyes",
+                  "Pale, cool extremities",
+                  "Fewer wet diapers than usual",
+                  "Decreased feeding with fatigue during feeds",
+                  "Occasional energetic play between meals"
+            ],
+            "answer": "A, B, C, D, E",
+            "rationale": "The lecture specifically highlights five discharge warning signs of heart failure after cardiac surgery: weight gain, periorbital edema, pale cool extremities, decreased wet diapers, and decreased feeding from fatigue or dyspnea. Energetic play is not one of the listed danger signs."
+      },
+      {
+            "type": "Which patient to see first / Tetralogy polycythemia",
+            "stem": "The nurse is receiving report on several children with tetralogy of Fallot. Which child should the nurse assess first?",
+            "options": [
+                  "A 4-year-old with chronic clubbing and an oxygen saturation of 82% that matches the documented baseline",
+                  "A 2-year-old with poor oral intake after fever, dry mucous membranes, and a hemoglobin of 23.1 g/dL",
+                  "A 14-month-old due for digoxin with an apical pulse of 108/min and potassium of 4.2 mEq/L",
+                  "A toddler scheduled for an echocardiogram later this morning who is resting quietly"
+            ],
+            "answer": "B. A 2-year-old with poor oral intake after fever, dry mucous membranes, and a hemoglobin of 23.1 g/dL",
+            "rationale": "The lecture emphasizes that chronic hypoxia can cause polycythemia, that hemoglobin levels over 22 are priority findings, and that dehydration increases clot risk further. This child is at high risk for thrombosis and stroke and needs prompt assessment."
+      },
+      {
+            "type": "Priority teaching / Pacemaker",
+            "stem": "A client is preparing for discharge after placement of a permanent pacemaker. Which statement by the client indicates a need for further teaching?",
+            "options": [
+                  "\"I will avoid raising the arm on the pacemaker side above my head for several weeks.\"",
+                  "\"I can use the microwave, but I should keep my phone on the opposite side.\"",
+                  "\"It is fine to stand in store security gates for a while if the line is moving slowly.\"",
+                  "\"I should report fainting, chest pain, shortness of breath, or weight gain.\""
+            ],
+            "answer": "C. \"It is fine to stand in store security gates for a while if the line is moving slowly.\"",
+            "rationale": "The pacemaker teaching in the transcript includes avoiding lingering near store security gates, avoiding strong magnets unless the device is MRI-compatible, monitoring for infection, and reporting symptoms such as fainting or weight gain. Microwaves are considered safe, and the arm on the device side should not be raised above the head during the early recovery period."
+      },
+      {
+            "type": "Priority nursing action / Adenosine",
+            "stem": "A stable client in supraventricular tachycardia is about to receive adenosine. Which action is essential for the nurse to take?",
+            "options": [
+                  "Administer the medication slowly over 10 minutes to reduce side effects",
+                  "Give the medication as a rapid IV push, flush immediately, and have emergency equipment available",
+                  "Disconnect the cardiac monitor briefly so artifact does not alarm the unit",
+                  "Tell the client that the heart rhythm should not change if the medication works"
+            ],
+            "answer": "B. Give the medication as a rapid IV push, flush immediately, and have emergency equipment available",
+            "rationale": "The transcript teaches that adenosine must be given rapidly and followed with an immediate flush. The nurse should anticipate a brief period of asystole and have the client on the monitor with emergency equipment present."
+      },
+      {
+            "type": "Select all that apply / AFib anticoagulation teaching",
+            "stem": "The nurse is teaching a client with atrial fibrillation who is prescribed warfarin. Which instructions should the nurse include? Select all that apply.",
+            "options": [
+                  "Keep follow-up appointments for INR monitoring",
+                  "Maintain a consistent intake of vitamin K rather than making large changes",
+                  "Avoid herbs such as ginger, ginkgo, and St. John's wort",
+                  "Report bleeding from the gums, nose, urine, or stool",
+                  "Drink grapefruit juice daily to keep the medication level stable",
+                  "Double the next dose if one dose is missed"
+            ],
+            "answer": "A, B, C, D",
+            "rationale": "The AFib lecture emphasizes adherence with warfarin, INR monitoring, watching for bleeding, maintaining consistent vitamin K intake, and avoiding herbs that interfere with warfarin. Grapefruit juice is taught with amiodarone rather than warfarin, and missed doses should not be doubled."
+      },
+      {
+            "type": "Priority assessment / Amiodarone",
+            "stem": "A client recently started on amiodarone for atrial fibrillation calls the clinic. Which report is most important for the nurse to address first?",
+            "options": [
+                  "\"I have had mild constipation for 2 days.\"",
+                  "\"I get short of breath and have developed a new cough.\"",
+                  "\"I noticed one small bruise where my blood was drawn.\"",
+                  "\"Bright sunlight bothers my eyes more than before.\""
+            ],
+            "answer": "B. \"I get short of breath and have developed a new cough.\"",
+            "rationale": "Amiodarone teaching in the transcript includes reporting cough and shortness of breath because the drug can cause pulmonary fibrosis. The nurse also monitors for hypotension, bradycardia, thyroid dysfunction, liver toxicity, jaundice, and photosensitivity, but new respiratory symptoms are especially concerning."
+      },
+      {
+            "type": "Which patient to see first / Dysrhythmia medications",
+            "stem": "Which client should the nurse assess first?",
+            "options": [
+                  "A client one day after pacemaker insertion with mild incisional soreness and a paced rhythm of 80/min",
+                  "A client with recurrent SVT receiving diltiazem who is dizzy and has a blood pressure of 84/50 mm Hg",
+                  "A client with atrial fibrillation on warfarin who asks whether spinach must be eliminated completely",
+                  "A client with occasional PACs after coffee who denies symptoms"
+            ],
+            "answer": "B. A client with recurrent SVT receiving diltiazem who is dizzy and has a blood pressure of 84/50 mm Hg",
+            "rationale": "The transcript warns that calcium channel blockers can cause hypotension, bradycardia, dizziness, and heart failure. This client has symptomatic poor perfusion now and requires priority assessment."
+      },
+      {
+            "type": "Recognition / Shock progression",
+            "stem": "A postoperative client is being monitored closely for hemorrhage. Which change is the earliest indicator that the client may be entering shock?",
+            "options": [
+                  "Blood pressure falls from 118/72 to 82/48 mm Hg",
+                  "Urine output decreases to 10 mL over the past hour",
+                  "Heart rate increases from 88/min to 116/min while blood pressure remains near baseline",
+                  "The client becomes unresponsive to painful stimuli"
+            ],
+            "answer": "C. Heart rate increases from 88/min to 116/min while blood pressure remains near baseline",
+            "rationale": "The shock lecture identifies tachycardia as the earliest and most subtle sign of shock. Hypotension, markedly decreased urine output, and decreased level of consciousness are later and more obvious signs of worsening perfusion."
+      },
+      {
+            "type": "Best indicator / Shock response",
+            "stem": "A 70-kg client is receiving treatment for shock. Which finding best indicates that tissue perfusion is improving?",
+            "options": [
+                  "Blood pressure is 104/58 mm Hg",
+                  "Heart rate has decreased to 98/min",
+                  "Urine output is 42 mL in the past hour",
+                  "Skin appears less pale than 1 hour ago"
+            ],
+            "answer": "C. Urine output is 42 mL in the past hour",
+            "rationale": "The lecture teaches that urine output is the gold standard for judging whether shock treatment is working because it reflects organ perfusion directly. A target of about 0.5 to 1 mL/kg/hr is expected, so 42 mL/hr is acceptable for a 70-kg client."
+      },
+      {
+            "type": "Select all that apply / Distributive shock",
+            "stem": "Which types of shock are classified as distributive shock in the lecture? Select all that apply.",
+            "options": [
+                  "Septic shock",
+                  "Neurogenic shock",
+                  "Anaphylactic shock",
+                  "Obstructive shock",
+                  "Cardiogenic shock"
+            ],
+            "answer": "A, B, C",
+            "rationale": "The transcript groups septic, neurogenic, and anaphylactic shock under distributive shock because blood volume is present but is not being distributed effectively due to vasodilation and altered vascular tone. Cardiogenic and obstructive shock arise from different mechanisms."
+      },
+      {
+            "type": "Recognition / Septic shock",
+            "stem": "Which finding most strongly suggests septic shock rather than classic hypovolemic shock?",
+            "options": [
+                  "Cool clammy skin after several episodes of vomiting",
+                  "Warm flushed skin with a full bounding pulse in a client with infection",
+                  "Jugular venous distention after a pulmonary embolism",
+                  "Bradycardia and warm dry skin after a spinal cord injury"
+            ],
+            "answer": "B. Warm flushed skin with a full bounding pulse in a client with infection",
+            "rationale": "The lecture emphasizes that early septic shock can be deceptive because the client may have warm flushed skin and a full bounding pulse rather than the cool clammy appearance seen with many other shock states."
+      },
+      {
+            "type": "First-best priority / Obstructive shock",
+            "stem": "A trauma client suddenly becomes hypotensive and severely dyspneic. The nurse notes tracheal deviation and jugular venous distention. Which intervention is the priority?",
+            "options": [
+                  "Administer large-volume crystalloids as the primary treatment",
+                  "Relieve the obstruction by preparing for immediate decompression of the affected lung",
+                  "Administer IM epinephrine for distributive vasodilation",
+                  "Place the client in Trendelenburg position and reassess in 15 minutes"
+            ],
+            "answer": "B. Relieve the obstruction by preparing for immediate decompression of the affected lung",
+            "rationale": "The lecture explains that obstructive shock is treated by fixing the underlying obstruction. In a tension pneumothorax, the lung problem must be relieved; fluids alone do not correct the cause of the shock."
+      },
+      {
+            "type": "Recognition / Diagnostic error",
+            "stem": "A client presents with chest pain and shortness of breath. The symptoms are attributed to anxiety, no ECG or cardiac enzymes are obtained, and the client later has an MI. How should this safety event be classified?",
+            "options": [
+                  "Diagnostic error",
+                  "Preventive error",
+                  "Communication failure only",
+                  "Near miss"
+            ],
+            "answer": "A. Diagnostic error",
+            "rationale": "The safety lecture uses this type of scenario to illustrate a diagnostic error: there was a failure to identify the underlying condition in a timely manner and indicated tests were not obtained."
+      },
+      {
+            "type": "Recognition / Preventive error",
+            "stem": "A postoperative client at high risk for thrombosis is not prescribed prophylactic anticoagulants and later develops a pulmonary embolism. Which type of safety error does this scenario best represent?",
+            "options": [
+                  "Treatment error",
+                  "Preventive error",
+                  "Sentinel event",
+                  "Active error"
+            ],
+            "answer": "B. Preventive error",
+            "rationale": "The transcript defines preventive errors as failures to provide prophylactic treatment or adequate follow-up. Omission of indicated anticoagulant prophylaxis leading to a preventable complication fits that definition."
+      },
+      {
+            "type": "Recognition / Sentinel event",
+            "stem": "A patient is taken to surgery and the wrong knee is operated on, resulting in serious long-term harm. Which term best describes this event?",
+            "options": [
+                  "Near miss",
+                  "Sentinel event",
+                  "Latent error only",
+                  "Communication tool failure"
+            ],
+            "answer": "B. Sentinel event",
+            "rationale": "The lecture defines a sentinel event as an unexpected occurrence involving death or serious injury that requires immediate investigation and response. Wrong-site surgery causing major harm is a classic example."
+      },
+      {
+            "type": "Priority action / Safety culture",
+            "stem": "A nurse realizes that the wrong antibiotic was given, but the patient remains stable and no immediate harm is evident. Which action best reflects a culture of safety?",
+            "options": [
+                  "Do not mention the error unless the patient develops symptoms later",
+                  "Tell only a trusted coworker and wait to see what happens",
+                  "Promptly disclose the error, report it through the proper system, and monitor the patient",
+                  "Remove the medication documentation to avoid unnecessary concern"
+            ],
+            "answer": "C. Promptly disclose the error, report it through the proper system, and monitor the patient",
+            "rationale": "The safety content emphasizes transparency, open communication, accountability, and reporting even when harm does not occur. Waiting, hiding the event, or changing documentation violates a culture of safety."
+      },
+      {
+            "type": "Application / High reliability principle",
+            "stem": "After a patient fall, the unit leader asks the team to review sedating medications, footwear, toileting schedule, staffing, handoff communication, room setup, and alarm use instead of blaming a single cause. Which high-reliability principle is this approach demonstrating?",
+            "options": [
+                  "Reluctance to simplify",
+                  "Task fixation",
+                  "Punitive accountability",
+                  "Failure to communicate"
+            ],
+            "answer": "A. Reluctance to simplify",
+            "rationale": "The lecture explains that high-reliability organizations analyze complex events thoroughly rather than attributing them to one simple explanation. Reviewing multiple contributing factors reflects reluctance to simplify."
+      }
+];
+
+    const container = document.getElementById('questions');
+    questions.forEach((q, index) => {
+      const block = document.createElement('div');
+      block.className = 'question';
+      block.innerHTML = `
+        <div class="qnum">Question ${index + 1}</div>
+        <div class="type">${q.type}</div>
+        <div class="stem">${q.stem}</div>
+        <ol class="options" type="A">${q.options.map(opt => `<li>${opt}</li>`).join('')}</ol>
+        <button onclick="toggleAnswer(${index})">Show/Hide Answer & Rationale</button>
+        <div class="answer" id="answer-${index}">
+          <strong>Answer:</strong> ${q.answer}<br><br>
+          <strong>Rationale:</strong> ${q.rationale}
+        </div>
+      `;
+      container.appendChild(block);
+    });
+
+    function toggleAnswer(index) {
+      const el = document.getElementById(`answer-${index}`);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleAllAnswers() {
+      const answers = document.querySelectorAll('.answer');
+      const anyHidden = Array.from(answers).some(a => a.style.display !== 'block');
+      answers.forEach(a => a.style.display = anyHidden ? 'block' : 'none');
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('nclex-dark-mode', document.body.classList.contains('dark') ? '1' : '0');
+    }
+
+    if (localStorage.getItem('nclex-dark-mode') === '1') {
+      document.body.classList.add('dark');
+    }
+  </script>
+</body>
+</html>
